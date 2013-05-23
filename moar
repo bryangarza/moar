@@ -1,1 +1,84 @@
-/home/wolfcore/scripts/moar
+#!/usr/bin/env ruby
+
+require 'trollop'
+require 'colorize'
+
+opts = Trollop::options do
+    opt :file, "What file to watch", :type => :string
+    opt :exec, "Run command from your path", :type => :string
+    opt :delay, "How often to compare timestamps (seconds)", :default => 2
+end
+
+class Executor
+
+    attr_reader :delay
+
+    def initialize args
+
+        @watch = args[:file].to_s if args[:file]
+        @watch_full = Dir.getwd + "/" + @watch
+
+        @run = "rake"
+        @run = args[:exec].to_s if args[:exec]
+        @delay = 3
+        @delay = args[:delay].to_i if args[:delay]
+
+        self.inform
+
+    end
+
+    def inform
+        puts "Moar version 0.1".colorize(:light_white)
+        print " * ".colorize(:light_cyan)
+        puts "Checking every #{@delay} seconds"
+        print " * ".colorize(:light_cyan)
+        puts "Watching #{@watch} for changes"
+        print " * ".colorize(:light_cyan)
+        puts "Running #{@run} upon changes"
+    end
+
+    def onchange
+        system("clear")
+        system("#{@run}")
+    end
+
+    def timestamp
+
+        begin
+        File.mtime(@watch_full)
+
+        rescue Errno::ENOENT => e
+            puts "Err: Attempted timestamp-chk while file was being saved".colorize(:red)
+            puts "Running command in #{@delay} seconds..."
+            sleep delay
+
+            timestamp
+        end
+
+    end
+
+    def before
+        @time_before = self.timestamp
+    end
+
+    def after
+        @time_after = self.timestamp
+    end
+
+    def check
+        if @time_before != @time_after
+            self.onchange
+        end
+    end
+
+end
+
+
+main = Executor.new opts
+
+while true
+    main.before
+    sleep main.delay
+    main.after
+    main.check
+end
