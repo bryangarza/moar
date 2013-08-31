@@ -46,16 +46,18 @@ class Executor
 
     def timestamp
 
-  #      begin
         File.mtime(@watch_full)
 
+#        begin
+#        File.mtime(@watch_full)
+#
 #        rescue Errno::ENOENT => e
 #            puts "Err: Attempted timestamp-chk while file was being saved".colorize(:red)
-  #          puts "Running command in #{@delay} seconds..."
-  #          sleep delay
-
-  #          timestamp
-  #      end
+#            puts "Running command in #{@delay} seconds..."
+#            sleep delay
+#
+#            timestamp
+#        end
 
     end
 
