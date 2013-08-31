@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+require 'bundler/setup'
+
 require 'trollop'
 require 'colorize'
 
@@ -44,16 +46,16 @@ class Executor
 
     def timestamp
 
-        begin
+  #      begin
         File.mtime(@watch_full)
 
-        rescue Errno::ENOENT => e
-            puts "Err: Attempted timestamp-chk while file was being saved".colorize(:red)
-            puts "Running command in #{@delay} seconds..."
-            sleep delay
+#        rescue Errno::ENOENT => e
+#            puts "Err: Attempted timestamp-chk while file was being saved".colorize(:red)
+  #          puts "Running command in #{@delay} seconds..."
+  #          sleep delay
 
-            timestamp
-        end
+  #          timestamp
+  #      end
 
     end
 
