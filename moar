@@ -26,14 +26,13 @@ class Executor
 
     def initialize args
 
-        @watch = args[:file].to_s if args[:file]
+        @watch = args[:file].to_s
         @watch_full = Dir.getwd + "/" + @watch
 
-        @run = "rake"
-        @run = args[:exec].to_s if args[:exec]
 
-        @delay = 3 
-        @delay = args[:delay].to_i if args[:delay]
+        @run = args[:exec].to_s
+
+        @delay = args[:delay].to_i
 
         self.inform
 
