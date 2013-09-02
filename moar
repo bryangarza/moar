@@ -30,7 +30,6 @@ class Executor
 
         @watch = args[:file].to_s
         @watch_full = Pathname.new(@watch).realpath
-        puts "#{@watch_full}"
 
 
         @run = args[:exec].to_s
@@ -46,7 +45,7 @@ class Executor
         print " * ".colorize(:light_red)
         puts "Checking every #{@delay} seconds"
         print " * ".colorize(:light_red)
-        puts "Watching #{@watch} for changes"
+        puts "Watching #{@watch_full} for changes"
         print " * ".colorize(:light_red)
         puts "Running #{@run} upon changes"
     end
