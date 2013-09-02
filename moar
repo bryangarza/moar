@@ -6,9 +6,18 @@ require 'trollop'
 require 'colorize'
 
 opts = Trollop::options do
-    opt :file, "What file to watch", :type => :string
-    opt :exec, "Run command from your path", :type => :string
-    opt :delay, "How often to compare timestamps (seconds)", :default => 2
+
+    opt :file, "What file to watch",
+        :type => :string,
+        :required => true
+    
+    opt :exec, "Run command from your path",
+        :type => :string,
+        :default => "rake"
+
+    opt :delay, "How often to compare timestamps (seconds)",
+        :type => :int,
+        :default => 3
 end
 
 class Executor
@@ -22,7 +31,8 @@ class Executor
 
         @run = "rake"
         @run = args[:exec].to_s if args[:exec]
-        @delay = 3
+
+        @delay = 3 
         @delay = args[:delay].to_i if args[:delay]
 
         self.inform
@@ -31,11 +41,11 @@ class Executor
 
     def inform
         puts "Moar version 0.1".colorize(:light_white)
-        print " * ".colorize(:light_cyan)
+        print " * ".colorize(:light_red)
         puts "Checking every #{@delay} seconds"
-        print " * ".colorize(:light_cyan)
+        print " * ".colorize(:light_red)
         puts "Watching #{@watch} for changes"
-        print " * ".colorize(:light_cyan)
+        print " * ".colorize(:light_red)
         puts "Running #{@run} upon changes"
     end
 
