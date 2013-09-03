@@ -49,12 +49,16 @@ class Executor
         puts "Watching #{@watch_full} for changes"
         print " * ".colorize(:light_red)
         puts "Running #{@run} upon changes"
-        print "> "
+        print "moar> ".colorize(:yellow)
     end
 
     def onchange
         system("clear")
         system("#{@run}")
+        
+        puts ''
+        puts "...done. Still watching..."
+        print "moar> ".colorize(:yellow)
     end
 
     def timestamp
