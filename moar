@@ -12,7 +12,7 @@ opts = Trollop::options do
     opt :file, "What file to watch",
         :type => :string,
         :required => true
-    
+
     opt :exec, "Run command from your path",
         :type => :string,
         :default => "rake"
@@ -26,6 +26,9 @@ class Executor
 
     attr_reader :delay
 
+    # No longer checking that the variable is populated because trollop gem
+    # adds required and default options
+
     def initialize args
 
         @watch = args[:file].to_s
@@ -33,7 +36,6 @@ class Executor
 
 
         @run = args[:exec].to_s
-
         @delay = args[:delay].to_i
 
         self.inform
@@ -46,7 +48,7 @@ class Executor
         print " * ".colorize(:light_red)
         puts "Checking every #{@delay} seconds"
         print " * ".colorize(:light_red)
-        puts "Watching #{@watch_full} for changes"
+        puts "Watching #{@watch_full}"
         print " * ".colorize(:light_red)
         puts "Running #{@run} upon changes"
         print "moar> ".colorize(:yellow)
@@ -55,7 +57,7 @@ class Executor
     def onchange
         system("clear")
         system("#{@run}")
-        
+
         puts ''
         puts "...done. Still watching..."
         print "moar> ".colorize(:yellow)
@@ -87,17 +89,17 @@ class Executor
     end
 
     def check
-        if @time_before != @time_after
-            self.onchange
-        end
+        self.onchange if @time_before != @time_after
     end
 
 end
 
 Thread.new do
+
     while line = STDIN.gets
         break if line.chomp == 'q'
     end
+
     exit
 end
 
