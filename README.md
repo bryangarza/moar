@@ -1,11 +1,8 @@
 Moar:
-===================================
+=====
 
 __Mo__dify __a__nd __R__eload
 
-This short Ruby script checks a file for timestamp
-changes to determine that it's been modified, and
-then runs any command you would like, such as 
-reloading the file or running rake. I find it much
-easier to use than other scripts that "watch" a
-file.
+Moar watches files for changes using its timestamp, and triggers commands,
+scripts, or the running of the file itself. I use it often to run rake for me
+when developing one-file programs.
